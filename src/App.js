@@ -2,6 +2,9 @@ import { useEffect, useReducer } from "react";
 import "./App.css";
 import Header from "./Header";
 import Main from "./Main";
+import Loader from "./Loader";
+import Error from "./Error";
+import StartScreen from "./StartScreen";
 const initialState = {
   questions: [],
   //loading, error,ready,active,finished
@@ -22,7 +25,7 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     async function getData() {
       try {
@@ -40,6 +43,9 @@ function App() {
     <div className="app">
       <Header />
       <Main />
+      {status === "loading" && <Loader />}
+      {status === "error" && <Error />}
+      {status === "ready" && <StartScreen />}
     </div>
   );
 }
