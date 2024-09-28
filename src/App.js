@@ -5,6 +5,7 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
+
 const initialState = {
   questions: [],
   //loading, error,ready,active,finished
@@ -26,6 +27,7 @@ function reducer(state, action) {
 
 function App() {
   const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const numQuestions = questions.length;
   useEffect(() => {
     async function getData() {
       try {
@@ -45,7 +47,7 @@ function App() {
       <Main />
       {status === "loading" && <Loader />}
       {status === "error" && <Error />}
-      {status === "ready" && <StartScreen />}
+      {status === "ready" && <StartScreen numQuestions={numQuestions} />}
     </div>
   );
 }
