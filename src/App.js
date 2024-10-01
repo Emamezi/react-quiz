@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import "./App.css";
+
 import Header from "./component/Header";
 import Main from "./component/Main";
 import Loader from "./component/Loader";
@@ -79,7 +79,11 @@ function App() {
   useEffect(() => {
     async function getData() {
       try {
-        const res = await fetch("http://localhost:8000/questions");
+        const res = await fetch(
+          "https://my-json-server.typicode.com/Emamezi/React-quiz/questions/"
+        );
+        // const res1 = await fetch("http://localhost:8000/questions");
+
         const data = await res.json();
         dispatch({ type: "dataReceived", payload: data });
       } catch (error) {
