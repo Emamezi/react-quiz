@@ -17,18 +17,36 @@ const SEC_PER_QUESTION = 30;
 const initialState = {
   questions: [],
   //loading, error,ready,active,finished
+  filteredQuestions: [],
   status: "loading",
   index: 0,
   answer: null,
   points: 0,
   highScore: 0,
   secondsRemaining: null,
+  difficulty: "all",
 };
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceived":
-      return { ...state, status: "ready", questions: action.payload };
-    case "dataailed":
+      return {
+        ...state,
+        status: "ready",
+        questions: action.payload,
+        filteredQuestions: action.payload,
+      };
+    case "setDifficulty":
+      return {
+        ...state,
+        difficulty: action.payload,
+        filteredQuestions:
+          action.payload === "all"
+            ? state.questions
+            : state.questions.filter(
+                (question) => question.difficulty === action.payload
+              ),
+      };
+    case "dataFailed":
       return { ...state, status: "error" };
     case "start":
       return {
@@ -70,26 +88,39 @@ function reducer(state, action) {
 
 function App() {
   const [
-    { questions, status, index, answer, points, highScore, secondsRemaining },
+    {
+      questions,
+      status,
+      index,
+      answer,
+      points,
+      highScore,
+      secondsRemaining,
+      filteredQuestions,
+      difficulty,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
-  const numQuestions = questions.length;
-  const totalPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
+  const numQuestions = filteredQuestions.length;
+  const totalPoints = filteredQuestions.reduce(
+    (prev, cur) => prev + cur.points,
+    0
+  );
 
   useEffect(() => {
     async function getData() {
       try {
-        const res = await fetch(
-          "https://my-json-server.typicode.com/Emamezi/React-quiz/questions/"
-        );
-        // const res1 = await fetch("http://localhost:8000/questions");
+        // const res = await fetch(
+        // "https://my-json-server.typicode.com/Emamezi/React-quiz/questions/"
+        const res = await fetch("http://localhost:8000/questions");
+        // );
 
         const data = await res.json();
+        console.log(data);
         dispatch({ type: "dataReceived", payload: data });
       } catch (error) {
         dispatch({ type: "dataFailed" });
       }
-      // console.log(data);
     }
     getData();
   }, []);
@@ -100,7 +131,11 @@ function App() {
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
         {status === "ready" && (
-          <StartScreen dispatch={dispatch} numQuestions={numQuestions} />
+          <StartScreen
+            dispatch={dispatch}
+            numQuestions={numQuestions}
+            difficulty={difficulty}
+          />
         )}
         {status === "active" && (
           <>
@@ -112,7 +147,7 @@ function App() {
               answer={answer}
             />
             <Question
-              question={questions[index]}
+              question={filteredQuestions[index]}
               dispatch={dispatch}
               answer={answer}
             />
