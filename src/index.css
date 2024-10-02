@@ -143,6 +143,11 @@ progress {
   border-radius: 100px;
   transition: 0.3s;
 }
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
 
 .btn:not([disabled]):hover {
   background-color: var(--color-darkest);
@@ -159,7 +164,9 @@ progress {
 .btn-ui {
   float: right;
 }
-
+.btn-prev {
+  float: left;
+}
 .options {
   display: flex;
   flex-direction: column;
@@ -185,6 +192,10 @@ progress {
 
 .answer {
   transform: translateX(2rem);
+}
+footer {
+  display: flex;
+  justify-content: space-between;
 }
 
 .result {
@@ -255,21 +266,4 @@ progress {
   80% {
     background-position: 0% 50%, 50% 50%, 100% 100%;
   }
-}
-
-/* ********** */
-/* First counter example */
-.counter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 6rem;
-}
-
-.counter * {
-  font-size: inherit;
-  padding: 0.8rem;
 }

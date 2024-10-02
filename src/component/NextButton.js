@@ -1,18 +1,18 @@
-function NextButton({ dispatch, answer, index, numQuestions }) {
-  console.log(numQuestions, index);
+function NextButton({ dispatch, answer, index, numQuestions, status }) {
   if (answer === null) return null;
   if (index < numQuestions - 1) {
     return (
-      <div>
+      <div className={`${status === "verify" ? "next" : ""}`}>
         <button
           className="btn btn-ui"
           onClick={() => dispatch({ type: "nextQuestion" })}
         >
-          Next Question
+          Next
         </button>
       </div>
     );
   }
+
   if (index === numQuestions - 1) {
     return (
       <div>

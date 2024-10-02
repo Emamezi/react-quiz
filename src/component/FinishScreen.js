@@ -13,9 +13,14 @@ function FinishScreen({ points, totalPoints, highScore, dispatch }) {
         of {totalPoints} ({percentage}%)
       </p>
       <p className="highscore">HighScore : {highScore} points</p>
-      <button className="btn" onClick={() => dispatch({ type: "restart" })}>
-        Restart Quiz
-      </button>
+      <div className="btn-container">
+        <button className="btn" onClick={() => dispatch({ type: "review" })}>
+          Review Answers
+        </button>
+        <button className="btn" onClick={() => dispatch({ type: "restart" })}>
+          Restart Quiz
+        </button>
+      </div>
     </>
   );
 }
