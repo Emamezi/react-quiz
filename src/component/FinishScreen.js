@@ -1,4 +1,7 @@
-function FinishScreen({ points, totalPoints, highScore, dispatch }) {
+import { useQuiz } from "../Context/QuizContext";
+
+function FinishScreen() {
+  const { points, totalPoints, highScore, dispatch } = useQuiz();
   let quizReaction;
   const percentage = Math.ceil((points / totalPoints) * 100);
   if (totalPoints > 90) quizReaction = "🥇";
